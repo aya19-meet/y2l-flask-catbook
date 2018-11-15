@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import render_template
+from flask import *
 from database import *
 
 app = Flask(__name__)
@@ -15,6 +14,15 @@ def cat_details(cat_id):
 	return render_template("cat.html", cat=cat)
 
 
+@app.route('/add_cat', methods=['GET', 'POST'])
+def homepage():
+    if request.method == 'GET': 
+        return render_template('addcat.html')
+    else:
+        name = request.form['name']
+        create_cat(name)        
+        return render_template('response.html',
+            name = name)
 
 if __name__ == '__main__':
    app.run(debug = True)
