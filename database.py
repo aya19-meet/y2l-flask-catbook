@@ -9,13 +9,18 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def create_cat(name):
-    cat_object = Cat(name=name)
+    cat_object = Cat(name=name,vote=0)
     session.add(cat_object)
     session.commit()
 
 def get_all_cats():
     cats = session.query(Cat).all()
     return cats
+def vote(id):
+	cat_object = session.query(Cat).filter_by(id=id).first()
+	cat_object.vote += 1
+	session.commit()
+
 
 def get_cat(cat_id):
 	cat = session.query(Cat).filter_by(id=cat_id).first()
